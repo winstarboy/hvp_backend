@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'hitachi-backend'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12E335C3647B4D5F9CC2D8ECEC7FDAEF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FACA92C6D5B34AEF9C4110F11EBA822D }}
           package: .
