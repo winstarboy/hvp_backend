@@ -1,32 +1,36 @@
 module.exports = (sequelize, Sequelize) => {
-    const BankdetailSchema = sequelize.define("bankDetail", {
-        bankId: {
+    const MasterVendorSubUserSchema = sequelize.define("MasterVendorSubUser", {
+        SubUserId: {
             type: Sequelize.STRING,
         },
         userId: {
             type: Sequelize.STRING,
         },
-        bankAccountName: {
+        Name: {
             type: Sequelize.STRING,
         },
-        bankName: {
+        designation: {
             type: Sequelize.STRING,
         },
-        bankAccountNumber: {
+        Department: {
             type: Sequelize.STRING,
         },
-        ifscCode: {
+        emailId: {
             type: Sequelize.STRING,
         },
-        MICRcode: {
+        mobileNo: {
+            type: Sequelize.INTEGER, 
+        },
+        loginId: {
             type: Sequelize.STRING,
         },
-        branchAddress: {
+        password: {
             type: Sequelize.STRING,
         },
-        bankdetailDoc: {
-            type: Sequelize.STRING,        
-        }
+        roles: {
+            type: Sequelize.STRING,
+        },
+
     })
-    return BankdetailSchema;
+    return MasterVendorSubUserSchema;
 }

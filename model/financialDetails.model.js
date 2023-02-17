@@ -1,13 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
     const FdetailSchema = sequelize.define("financialDetail", {
         financial_id: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
         },
-        userid: {
-            type: Sequelize.INTEGER,
+        userId: {
+            type: Sequelize.STRING,
         },
         yearOfAuditedFinancial: {
-            type: Sequelize.DATE, 
+            type: Sequelize.INTEGER, 
         },
         Revenue: {
             type: Sequelize.STRING,    
@@ -25,10 +25,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
         },
         financial_data: {
-            type: Sequelize.BLOB('long'),
+            type: Sequelize.STRING,
         },
         financial_data2: {
-            type: Sequelize.BLOB('long'),
+            type: Sequelize.STRING,
         }
     })
     return FdetailSchema;

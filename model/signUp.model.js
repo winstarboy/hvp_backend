@@ -11,7 +11,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         emailId: {
             type: Sequelize.STRING,
-            unique: true
         },
         password: {
             type: Sequelize.STRING
@@ -35,6 +34,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING 
         },
         userId:{
+            type: Sequelize.STRING 
+        },
+        role:{
             type: Sequelize.STRING 
         }
     });

@@ -1,32 +1,26 @@
 module.exports = (sequelize, Sequelize) => {
-    const BankdetailSchema = sequelize.define("bankDetail", {
-        bankId: {
-            type: Sequelize.STRING,
-        },
+    const ApprovalSchema = sequelize.define("approval", {
         userId: {
             type: Sequelize.STRING,
         },
-        bankAccountName: {
+        level1Status: {
             type: Sequelize.STRING,
         },
-        bankName: {
+        level1RejectComment: {
             type: Sequelize.STRING,
         },
-        bankAccountNumber: {
+        level1rejectFileDoc: {
             type: Sequelize.STRING,
         },
-        ifscCode: {
+        level2Status: {
             type: Sequelize.STRING,
         },
-        MICRcode: {
+        level2RejectComment: {
             type: Sequelize.STRING,
         },
-        branchAddress: {
+        level2rejectFileDoc: {
             type: Sequelize.STRING,
         },
-        bankdetailDoc: {
-            type: Sequelize.STRING,        
-        }
     })
-    return BankdetailSchema;
+    return ApprovalSchema;
 }

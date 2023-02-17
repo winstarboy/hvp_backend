@@ -5,49 +5,8 @@ const { check, validationResult } = require("express-validator");
 var geoCountryZipCode = require('geonames-country-zipcode-lookup');
 const { getData } = require('country-list');
 
-exports.postVdetail = [
-  //validate form
-  check("address1")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 50 })
-    .withMessage("address1 is required"),
-  check("address2")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 50 })
-    .withMessage("address2 is required"),
-  check("country")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 20 })
-    .withMessage("country is required"),
-  check("state")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 20 })
-    .withMessage("state is required"),
-  check("city")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 20 })
-    .withMessage("city is required"),
-  check("pinCode")
-    .not()
-    .isEmpty()
-    .isNumeric()
-    .isLength(6)
-    .withMessage("pinCode is required"),
-  check("companyName")
-    .not()
-    .isEmpty()
-    .isLength({ min: 2, max: 20 })
-    .withMessage("companyName is required"),
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ status: "error", errors: errors.array() });
-    } else {
+exports.postVdetail = (req, res, next) => {
+    const userId=req.body.userId;
       const address1 = req.body.address1;
       const address2 = req.body.address2;
       const country = req.body.country;
@@ -57,6 +16,9 @@ exports.postVdetail = [
       const contactName = req.body.contactName;
       const companyName = req.body.companyName;
       const image = new Buffer(req.body.image, 'base64').toString('binary');
+      const vendorType = req.body.vendorType;
+      const vendorManager = req.body.vendorManager;
+      const mkDenialCheque = req.body.mkDenialCheque;
       const user = new VdetailSchema({
         address1: address1,
         address2: address2,
@@ -67,9 +29,13 @@ exports.postVdetail = [
         contactName: contactName,
         companyName: companyName,
         image: image,
+        vendorType: vendorType,
+        vendorManager: vendorManager,
+        mkDenialCheque: mkDenialCheque,
+        userId:userId,
       });
       try {
-        const result = await user.save();
+        const result = user.save();
         return res.status(200).json({
           status: "success",
           result,
@@ -80,9 +46,7 @@ exports.postVdetail = [
           .status(404)
           .json({ status: "error", err, message: "Error Response" });
       }
-    }
-  },
-];
+  }
 //SaveVendorCommunication
 exports.SaveVendorCommunication = (req, res) => {
   const VendorCommunication = {
@@ -105,7 +69,9 @@ exports.SaveVendorCommunication = (req, res) => {
     contactName: req.body.contactName,
     designation: req.body.designation,
     phoneNo: req.body.phoneNo,
-    email: req.body.email
+    email: req.body.email,
+    userId:req.body.userId,
+    mastervendor_email:req.body.mastervendor_email,
   };
   vendorCommunicationDetails.create(VendorCommunication)
     .then(data => {
@@ -135,3 +101,58 @@ exports.getStateAndcityByzipcode = (req, res, next) => {
   // const result = geoCountryZipCode.lookup(code,pinCode); 
   // return res.status(200).json({ status: "success", data: result });
 }
+
+exports.updateVendor = async (req, res) => {
+  const userId = req.params.userId;
+  const updates = req.body;
+
+  // check if there are any empty fields
+  for (const key in updates) {
+    if (!updates[key]) {
+      updates[key] = null;
+    }
+  }
+
+  const updateResult = await VdetailSchema.update(updates, {
+    where: { userId }
+  });
+
+  if (updateResult[0]) {
+    res.status(200).json({
+      status: "success",
+      message: "Vendor updated successfully",
+    });
+  } else {
+    res.status(404).json({
+      status: "error",
+      message: "Vendor not found"
+    });
+  }
+};
+
+exports.updateCommunication = async (req, res) => {
+  const userId = req.params.userId;
+  const updates = req.body;
+
+  // check if there are any empty fields
+  for (const key in updates) {
+    if (!updates[key]) {
+      updates[key] = null;
+    }
+  }
+  const updateResult = await vendorCommunicationDetails.update(req.body, {
+    where: { userId }
+  });
+
+  if (updateResult[0]) {
+    res.status(200).json({
+      status: "success",
+      message: "Communication details updated successfully",
+    });
+  } else {
+    res.status(404).json({
+      status: "error",
+      message: "Communication details not found"
+    });
+  }
+};

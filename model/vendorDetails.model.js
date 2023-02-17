@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         address1: {
             type: Sequelize.TEXT,
         },
+        userId: {
+            type: Sequelize.STRING,
+          },
         address2: {
             type: Sequelize.TEXT,
         },
@@ -16,16 +19,23 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
         },
         pinCode: {
-            type: Sequelize.INTEGER,
-            allowNull: false
+            type: Sequelize.STRING,
         },
         companyName: {
             type: Sequelize.STRING,
-            allowNull: false
         },
         image: {
-            type: Sequelize.BLOB,
+            type: Sequelize.STRING,
         },
+        vendorType: {
+            type: Sequelize.STRING,
+        },
+        vendorManager: {
+            type: Sequelize.STRING        
+        },
+        mkDenialCheque: {
+            type: Sequelize.STRING
+        }
     })
     return VdetailSchema;
 }

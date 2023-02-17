@@ -12,13 +12,26 @@ const commsDetail = require("../controller/commsDetails.controller")
 const hisysContact = require("../controller/hisysContact.controller")
 const contactTeam = require("../controller/ContactTeam.controller")
 
+const approvalStatus = require("../controller/approval.controller")
+
+
+const MasterVendorSubUser=require("../controller/MasterVendorSubUser.controller")
+
 const router = express.Router();
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.json({
+    title: 'Express',
+    message: 'Welcome to the API'
+  });
+});
 // signUp
 router.post("/signUp", signUp.postSingUp);
 //login
 router.post("/login", signUp.postLogin);
 
 router.get('/signout', signUp.signout);
+router.get('/emailNotification', signUp.emailNotification);
 //saveUser
 router.post("/saveUser", signUp.saveUser);
 
@@ -47,8 +60,12 @@ router.delete("/deleteById/:id", tutorialApi.deleteById);
 
 //vdetail schema - create
 router.post("/saveVdetail", vdetail.postVdetail);
+// update vdetail
+router.put("/updateVdetail/:userId", vdetail.updateVendor);
 //save vendor-communication details
 router.post("/SaveVendorCommunication", vdetail.SaveVendorCommunication);
+//update communication details
+router.put("/updateCommunication/:userId", vdetail.updateCommunication);
 //getCountry
 router.get('/getCountry', vdetail.getCountry);
 //getStateAndcityByzipcode
@@ -56,19 +73,61 @@ router.get('/getStateAndcityByzipcode/:code/:pinCode', vdetail.getStateAndcityBy
 //fdetail schema - Create
 // router.post("/saveFdetail", fdetail.postFdetail);
 router.post("/saveFinacialDetail", fdetail.saveFinacialDetail);
+//Update
+router.put("/updateFinacialDetail/:userId", fdetail.updateFinacialDetail);
 //bankdetail schema - Create
-router.post("/saveBdetail", bankdetail.postBankdetail);
+router.post("/saveBankDetail", bankdetail.saveBankDetail);
+//bankdetail - Update
+router.put("/updateBankDetail/:userId", bankdetail.updateBankDetail);
+
+
+
+// router.delete("/deleteFile/:filename",bankdetail.deleteFile);
 //statdetails schema - create
-router.post("/saveStatdetail", statdetail.postStatdetail);
+// router.post("/saveStatdetail", statdetail.postStatdetail);
 router.post("/saveStatutoryDetail", statdetail.saveStatutoryDetail);
+
+router.put("/updateStatutoryDetail/:userId", statdetail.updateStatutoryDetail)
 //compdetails schema - create
 router.post("/saveComplianceDetail", compDetail.saveComplianceDetail);
 
+router.put("/updateComplianceDetail/:userId", compDetail.updateComplianceDetail);
+
+router.post('/createRelatedDisclosurePdf', compDetail.createRelatedDisclosurePdf);
+router.post('/createCompliancePdf', compDetail.createCompliancePdf);
+router.post('/createnonDisclosure', compDetail.createnonDisclosure);
+//downloadLog
 router.get('/downloadPdf/:name', compDetail.downloadPdf);
+router.get('/downloadPdfUploads/:name', compDetail.downloadPdfUploads);
 router.get('/readPdf', compDetail.readPdf);
+router.get('/readPdfUploads', compDetail.readPdfUploads);
+
+router.get('/getfinacialYear', compDetail.getfinacialYear);
 //hisysContact schema - create
 router.post("/saveHisysContact", hisysContact.postHisysContact);
 router.post("/saveContactTeam", contactTeam.saveContactTeam);
+//update contact team
+router.put("/updateContactTeam/:userId", contactTeam.updateContactTeam);
+router.get("/getAllCollection/:userId", contactTeam.getAllCollection);
+//update all collection
+router.put("/updateAllCollection/:userId", contactTeam.updateAllCollection);
 
+router.get("/getvendorDetail/:userId", contactTeam.getvendorDetail);
+router.get("/getAllUserDetail", contactTeam.getAllUserDetail);
+
+
+router.post("/saveApproval", approvalStatus.saveApprovalStatus);
+
+router.put("/updateApprovalStatus/:userId", approvalStatus.updateApprovalStatus);
+
+router.get('/getApprovedStatus', approvalStatus.getApprovedStatus);
+
+router.get('/getRejectStatus', approvalStatus.getRejectStatus);
+
+
+router.post('/saveMasterVendorSubUser',MasterVendorSubUser.saveMasterVendorSubUser);
+router.post("/getMasterVendorSubUserById",MasterVendorSubUser.getMasterVendorSubUserById);
+router.get("/getAllMasterVendorSubUser",MasterVendorSubUser.getAllMasterVendorSubUser);
+router.post("/UpdateMasterVendorSubUserById",MasterVendorSubUser.UpdateMasterVendorSubUserById);
 
 module.exports = router;
